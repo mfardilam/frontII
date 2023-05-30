@@ -40,38 +40,37 @@ datosPersona.edad = 2023 - parseInt(prompt("Ingresa el año en que naciste"));
 datosPersona.ciudad = prompt("Ingresa la ciudad en la que vives");
 datosPersona.interesPorJs = confirm("¿Te interesa JavaScript?") ? "Sí" : "No";
 
-}
+};
 
 function renderizarDatosUsuario() {
   /* ------------------- NO TOCAR NI ELIMINAR ESTA FUNCION. ------------------- */
   obtenerDatosDelUsuario();
   /* --------------- PUNTO 2: Escribe tu codigo a partir de aqui --------------- */
   const cardDatos = document.querySelectorAll(".card-header span");
-  cardDatos.forEach(span => span.innerHTML = "");
   cardDatos[0].innerHTML = datosPersona.nombre;
   cardDatos[1].innerHTML = datosPersona.edad;
   cardDatos[2].innerHTML = datosPersona.ciudad;
   cardDatos[3].innerHTML = datosPersona.interesPorJs;  
   
-}
+};
 
 
 function recorrerListadoYRenderizarTarjetas() {
   /* ------------------ PUNTO 3: Escribe tu codigo desde aqui ------------------ */
-  const filaMaterias = document.querySelector("#fila");
+  const filaMaterias = document.getElementById("fila");
   filaMaterias.innerHTML = "";
 
   listado.forEach(materia =>{
     filaMaterias.innerHTML +=`
     <div class="caja">
       <img src="${materia.imgUrl}" alt="${materia.lenguajes}">
-      <p class="lenguajes">${materia.lenguajes}</p>
-      <p class="bimestre">${materia.bimestre}</p>
+      <p class="lenguajes">Lenguajes: ${materia.lenguajes}</p>
+      <p class="bimestre">Bimestre: ${materia.bimestre}</p>
     </div>
-    `
+    `;
   });
 
-}
+};
 
 function alternarColorTema() {
   /* --------------------- PUNTO 4: Escribe tu codigo aqui --------------------- */
@@ -79,11 +78,11 @@ function alternarColorTema() {
   const contenedorPrincipal = document.querySelector("#sitio");
   contenedorPrincipal.classList.toggle("dark");
 
-}
+};
 
 /* --------------------- PUNTO 5: Escribe tu codigo aqui --------------------- */
 
 window.addEventListener("keydown",(e)=>{
-    const textoSobreMi = document.querySelector("#sobre-mi");
-    e.key == "F" ? textoSobreMi.removeAttribute("class") : "";
-} )
+    const textoSobreMi = document.getElementById("sobre-mi");
+    e.key == "F" || e.key == "f" ? textoSobreMi.removeAttribute("class") : "";
+} );
