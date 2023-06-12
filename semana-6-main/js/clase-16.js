@@ -77,12 +77,12 @@ let listadoComentarios = [{
 /* -------------------------------------------------------------------------- */
 const boton = document.querySelector('button');
 
-boton.addEventListener('click', function () {
-   console.log("Clink para ver comentarios...");
+// boton.addEventListener('click', function () {
+//     console.log("Clink para ver comentarios...");
 
-//    Esta funcion retorna una promesa, por eso capturamos su resultado con el then()
-   consultaAsincrona("endpoint").then( respuesta => console.log(respuesta))
-})
+// //    Esta funcion retorna una promesa, por eso capturamos su resultado con el then()
+//     consultaAsincrona("endpoint").then( respuesta => console.log(respuesta))
+// })
 
 /* -------------------------------------------------------------------------- */
 /*                      [2] FUNCION: creamos una promesa                      */
@@ -92,26 +92,26 @@ boton.addEventListener('click', function () {
 
 function consultaAsincrona(texto) {
     
-    return new Promise((resolve, reject) => {
+    // return new Promise((resolve, reject) => {
         
-        // simulamos la espera de info del servidor con el setTimeout
-        setTimeout(function(){
+    //     // simulamos la espera de info del servidor con el setTimeout
+    //     setTimeout(function(){
     
-            // chequeamos que el texto sea el correcto
-            // esto simula lo que a futuro vamos a hacer con fetch()
-            if(texto === "endpoint"){
-                // si está OK devolvemos el listado
-                resolve(listadoComentarios);
-            } else{
-                // otra posibilidad es que la promesa sea rechazada
-                reject({
-                    mensaje: "Consulta rechazada."
-                })
-            }
+    //         // chequeamos que el texto sea el correcto
+    //         // esto simula lo que a futuro vamos a hacer con fetch()
+    //         if(texto === "endpoint"){
+    //             // si está OK devolvemos el listado
+    //             resolve(listadoComentarios);
+    //         } else{
+    //             // otra posibilidad es que la promesa sea rechazada
+    //             reject({
+    //                 mensaje: "Consulta rechazada."
+    //             })
+    //         }
     
-        }, 2500)
+    //     }, 2500)
     
-    })
+    // })
 
 }
 

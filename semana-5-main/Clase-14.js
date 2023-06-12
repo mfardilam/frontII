@@ -2,18 +2,24 @@
 // De esta manera vamos a poder consumir en un html algo que haya guardado otro.
 // 👉 Para eso debemos agregar al principio de la función [5] en script 'Clase-13' la siguiente línea:
 //     localStorage.setItem('user', JSON.stringify(estadoUsuario));
-
+chequearUsuarioValido();
 /* -------------------------------------------------------------------------- */
 /*           [6] FUNCION: Escuchamos el evento de carga de la página          */
 /* -------------------------------------------------------------------------- */
 window.addEventListener('load', function () {
-    // 👇 Todo lo que desarrollamos dentro, se ejecuta una vez que se carga la página
-
-    // nos traemos la info del storage
+    //Para que una vez haya cargado la página, levante lo que está en el storage
     const user = recuperarDataStorage();
-
-    // utilizamos la funcion para el renderizado
+    //La info que del storage se renderice, se muestre en pantalla
     renderizarElementos(user);
+
+
+    // // 👇 Todo lo que desarrollamos dentro, se ejecuta una vez que se carga la página
+
+    // // nos traemos la info del storage
+    // const user = recuperarDataStorage();
+
+    // // utilizamos la funcion para el renderizado
+    // renderizarElementos(user);
 
 })
 
@@ -21,11 +27,23 @@ window.addEventListener('load', function () {
 /*                 [7] FUNCION: Recuperar la info del storage                 */
 /* -------------------------------------------------------------------------- */
 function recuperarDataStorage() {
-    const datosEnJSON = localStorage.getItem('user');
 
-    const datosParseados = JSON.parse(datosEnJSON);
+    //Traigo lo que había guardado
+    const datosJSON = localStorage.getItem('usuario');
+
+    //como esto es string hay que parsearlo a JSON
+    const datosParseados = JSON.parse(datosJSON);
+    console.log(datosParseados);
+    console.log(datosJSON);
 
     return datosParseados;
+
+
+    // const datosEnJSON = localStorage.getItem('user');
+
+    // const datosParseados = JSON.parse(datosEnJSON);
+
+    // return datosParseados;
 }
 
 
@@ -33,13 +51,19 @@ function recuperarDataStorage() {
 /*                [8] FUNCION: Renderizamos la info en pantalla               */
 /* -------------------------------------------------------------------------- */
 function renderizarElementos(objeto) {
-    // capturamos los nodos
     const email = document.querySelector('#email');
     const perfil = document.querySelector('#perfil');
 
-    // pintamos las propiedades del objeto en pantalla
-    email.innerText = objeto.email;
-    perfil.innerText = objeto.rol;
+    email.innerHTML = objeto.email;
+    perfil.innerHTML = objeto.rol;
+
+    // // capturamos los nodos
+    // const email = document.querySelector('#email');
+    // const perfil = document.querySelector('#perfil');
+
+    // // pintamos las propiedades del objeto en pantalla
+    // email.innerText = objeto.email;
+    // perfil.innerText = objeto.rol;
 }
 
 
@@ -62,9 +86,44 @@ function renderizarElementos(objeto) {
 // 4- Tenemos que agregar el botón en pantalla, adentro del div con la clase 'user', al final del mismo
 // 5- El botón debe reaccionar cuando se le hace click
 // 6- Mediante el click debe aparecer un cuadro de confirmación que pregunte: "¿Seguro desea cerrar sesión?"
-// 7- Si el usuario acepta debe borrar todo el storage y redirigirlo a la pantalla de Login.
+// 7- Si el usuario acepta debe borrar todo el storage y redirigirlo a la pantalla de Login. //RemoveItem o clear
 
 function botonCerrarSesion() {
     //    👇 desarrollar la función
+    const divUser = document.querySelector(".user");
+    const btnLogout = document.createElement("button");
+    btnLogout.setAttribute("class", "btn-logout");
+    btnLogout.innerText = "Cerrar sesión";
+    divUser.appendChild(btnLogout);    
+
+    btnLogout.addEventListener("click", ()=>{
+        if(confirm("¿Seguro desea cerrar sesión?")){
+            localStorage.removeItem('usuario');
+            location.replace('./index.html');
+        }
+    })
+
+}
+
+botonCerrarSesion();
+
+function chequearUsuarioValido() {
+
+    // 👇 objeto que obtenemos del storage
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
+
+    // chequeamos las propiedades del objeto
+    
+    
+    if(usuario !== null){
+        // 👇utilizamos destructuring para separar las variables
+        const { email, password, rol, terminos } = usuario;
+        console.log(usuario);
+        console.log(`-> ${email}\n-> ${password}\n-> ${rol}\n-> ${terminos}`);
+    }else{
+        alert("Debes iniciar sesión")
+        location.replace('./')
+        localStorage.clear();
+    }
 
 }
