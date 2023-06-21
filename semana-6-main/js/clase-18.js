@@ -5,9 +5,9 @@ window.addEventListener('load', function () {
 
     const formulario = this.document.querySelector('form')
 
-    formulario.addEventListener('submit', function (event) {
-        event.preventDefault();
-
+    formulario.addEventListener('submit', function (e) {
+        e.preventDefault();
+        //Función que se encarga de hacer el trabajo:
         postearComentario();
     })
 
@@ -21,14 +21,22 @@ function capturarDatos() {
     const titulo = document.querySelector('#titulo');
     const comentario = document.querySelector('#comentario');
 
-    // armamos el objeto basado en lo que nos pide la api
     let objeto = {
         title: titulo.value,
         body: comentario.value,
-        userId: 1,
-      }
+        userId: 1
+    }
 
     return objeto;
+
+    // // armamos el objeto basado en lo que nos pide la api
+    // let objeto = {
+    //     title: titulo.value,
+    //     body: comentario.value,
+    //     userId: 1,
+    // }
+
+    // return objeto;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -38,25 +46,43 @@ function capturarDatos() {
 // https://jsonplaceholder.typicode.com/guide/
 
 function postearComentario() {
-    // 👇 usamos nuestra funcion para capturar los datos y guardarlos como objeto
-    const datos = capturarDatos();
+    //el objeto que retorna capturarDatos()
+    const data = capturarDatos();
 
-    // 👇 armamos las configuraciones
-    // la api acepta JSON, por eso stringuificamos los datos
+    //Armando el objeto de settings
     const configuraciones = {
         method: 'POST',
-        body: JSON.stringify(datos),
+        body: JSON.stringify(data),
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
-        },
+        }
     }
 
     fetch('https://jsonplaceholder.typicode.com/posts', configuraciones)
-        .then((respuesta) => respuesta.json())
-        .then((data) => {
-            console.log(data);
-            renderizarRespuesta(data);
-        });
+        .then(respuesta => respuesta.json())
+        .then(datos =>{
+            console.log(datos);
+            renderizarRespuesta(datos);
+        })
+    // // 👇 usamos nuestra funcion para capturar los datos y guardarlos como objeto
+    // const datos = capturarDatos();
+
+    // // 👇 armamos las configuraciones
+    // // la api acepta JSON, por eso stringuificamos los datos
+    // const configuraciones = {
+    //     method: 'POST',
+    //     body: JSON.stringify(datos),
+    //     headers: {
+    //         'Content-type': 'application/json; charset=UTF-8',
+    //     },
+    // }
+
+    // fetch('https://jsonplaceholder.typicode.com/posts', configuraciones)
+    //     .then((respuesta) => respuesta.json())
+    //     .then((data) => {
+    //         console.log(data);
+    //         renderizarRespuesta(data);
+    //     });
 }
 
 /* -------------------------------------------------------------------------- */
@@ -64,19 +90,31 @@ function postearComentario() {
 /* -------------------------------------------------------------------------- */
 
 function renderizarRespuesta(datos) {
-    const div = document.querySelector('.respuesta')
-    
-    const template = `
+    const div = document.querySelector(".respuesta");
+    const platilla = `
         <p>✅ Datos cargados en el servidor</p>
-        <p>
-            Title: ${datos.title}
-        </p>
-        <p>
-            Body: ${datos.body}
-        </p>
+        <p>Title: ${datos.title}</p>
+        <p>Body: ${datos.body}</p>
+        <p>ID: ${datos.id}</p>
     `;
 
-    div.innerHTML = template;
+    div.innerHTML = platilla;
+
+
+
+    // const div = document.querySelector('.respuesta')
+    
+    // const template = `
+    //     <p>✅ Datos cargados en el servidor</p>
+    //     <p>
+    //         Title: ${datos.title}
+    //     </p>
+    //     <p>
+    //         Body: ${datos.body}
+    //     </p>
+    // `;
+
+    // div.innerHTML = template;
 
 }
 

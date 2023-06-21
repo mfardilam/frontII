@@ -1,3 +1,5 @@
+/**Esto y la funcion 2 serían el back */
+
 let listadoComentarios = [{
         postId: 1,
         id: 1,
@@ -77,12 +79,12 @@ let listadoComentarios = [{
 /* -------------------------------------------------------------------------- */
 const boton = document.querySelector('button');
 
-// boton.addEventListener('click', function () {
-//     console.log("Clink para ver comentarios...");
+boton.addEventListener('click', function () {
+    console.log("Click para ver comentarios...");
 
-// //    Esta funcion retorna una promesa, por eso capturamos su resultado con el then()
-//     consultaAsincrona("endpoint").then( respuesta => console.log(respuesta))
-// })
+//    Esta funcion retorna una promesa, por eso capturamos su resultado con el then()
+    consultaAsincrona("endpoint").then( respuesta => renderizarElementos(respuesta)).catch(error =>alert(error.mensaje));
+})
 
 /* -------------------------------------------------------------------------- */
 /*                      [2] FUNCION: creamos una promesa                      */
@@ -92,33 +94,33 @@ const boton = document.querySelector('button');
 
 function consultaAsincrona(texto) {
     
-    // return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         
-    //     // simulamos la espera de info del servidor con el setTimeout
-    //     setTimeout(function(){
+        // simulamos la espera de info del servidor con el setTimeout
+        setTimeout(function(){
     
-    //         // chequeamos que el texto sea el correcto
-    //         // esto simula lo que a futuro vamos a hacer con fetch()
-    //         if(texto === "endpoint"){
-    //             // si está OK devolvemos el listado
-    //             resolve(listadoComentarios);
-    //         } else{
-    //             // otra posibilidad es que la promesa sea rechazada
-    //             reject({
-    //                 mensaje: "Consulta rechazada."
-    //             })
-    //         }
+            // chequeamos que el texto sea el correcto
+            // esto simula lo que a futuro vamos a hacer con fetch()
+            if(texto === "endpoint"){
+                // si está OK devolvemos el listado
+                resolve(listadoComentarios);
+            } else{
+                // otra posibilidad es que la promesa sea rechazada
+                reject({
+                    mensaje: "Consulta rechazada."
+                })
+            }
     
-    //     }, 2500)
+        }, 2500)
     
-    // })
+    })
 
 }
 
 /* ----------------------------- Mesa de trabajo ---------------------------- */
 /* -------------------------------------------------------------------------- */
 /*                       [3] FUNCION: Pintar en pantalla                      */
-/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */ //en div .comentarios
 // En este caso la consigna será más abierta, se explicitarán los requerimientos
 // pero hay varias maneras de llegar al resultado.
 // 1- Hay que desarrollar esta función para que reciba los comentarios y los muestre en pantalla.
@@ -129,6 +131,22 @@ function consultaAsincrona(texto) {
 //  llegar al mismo resultado utilizando .map()
 // Muchos éxitos!
 
-function renderizarElementos(listado){
-    // desarrollar la funcion 👇
-}
+    function renderizarElementos(listado){
+        // desarrollar la funcion 👇
+        const divComentarios = document.querySelector(".comentarios");
+        divComentarios.innerHTML = "";
+
+        // listado.forEach(comentario =>{
+        //     divComentarios.innerHTML +=`
+        //     <h4>${comentario.email}</h4>
+        //     <p>${comentario.body}</p>
+        //     `
+        // })
+
+        // listado.map(comentario =>{ return `<h4>${comentario.email}</h4><p>${comentario.body}</p>`})
+        //     .forEach(element => {divComentarios.innerHTML += element});
+
+        divComentarios.innerHTML = listado.map(comentario =>{ return `<h4>${comentario.email}</h4><p>${comentario.body}</p>`}).join('');
+        
+
+    }

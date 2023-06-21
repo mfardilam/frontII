@@ -12,15 +12,37 @@
 function consultaApi(endpoint) {
 
     fetch(endpoint)
-        .then(objetoRespuesta => {
+        .then(objetoRespuesta =>{
             console.log(objetoRespuesta);
-            const promesaJson = objetoRespuesta.json();
-            return promesaJson;
-        })
-        .then(datosJs => {
-            console.log(datosJs);
-            renderizarElementos(datosJs);
-        })
+            if(!objetoRespuesta.ok){
+                throw objetoRespuesta
+                // throw{
+                //     //error: true,
+                //     message: "Endpoint no encontrado, error ",
+                //     objeto: objetoRespuesta
+                // }
+            }
+            const promesaJSON = objetoRespuesta.json();
+            return promesaJSON;
+        }).then(datoJS =>{
+            console.log(datoJS);
+            renderizarElementos(datoJS);
+        }).catch(error =>{
+            //alert(error.message + error.objeto.status);
+            alert(`Algo salió mal - ${error.status}`);
+        }
+        )
+
+    // fetch(endpoint)
+    //     .then(objetoRespuesta => {
+    //         console.log(objetoRespuesta);
+    //         const promesaJson = objetoRespuesta.json();
+    //         return promesaJson;
+    //     })
+    //     .then(datosJs => {
+    //         console.log(datosJs);
+    //         renderizarElementos(datosJs);
+    //     })
 
 }
 
@@ -30,13 +52,13 @@ function consultaApi(endpoint) {
 // Vamos a reimplementar la escucha del click lanzar las nuevas funciones.
 
 const boton = document.querySelector('button');
+//Esta API nos da información falsa para trabajar
 const endpoint = 'https://jsonplaceholder.typicode.com/comments';
 
 boton.addEventListener('click', function () {
-    console.log("Clink para ver comentarios...");
+    console.log("Click para ver comentarios...");
 
     consultaApi(endpoint);
-
 
 })
 
@@ -47,14 +69,24 @@ boton.addEventListener('click', function () {
 // el .map() y .join() para obtener el resultado esperado.
 
 function renderizarElementos(listado) {
-    const comentarios = document.querySelector('.comentarios');
+    const comentarios = document.querySelector(".comentarios");
 
-    comentarios.innerHTML = listado.map(item => {
+    comentarios.innerHTML = listado.slice(0,10).map(item =>{
         return `<div class="comentario">
                     <h4>${item.email}</h4>
                     <p>${item.body}</p>
                 </div>`
     }).join('');
+
+    boton.style.visibility = "hidden";
+    // const comentarios = document.querySelector('.comentarios');
+
+    // comentarios.innerHTML = listado.map(item => {
+    //     return `<div class="comentario">
+    //                 <h4>${item.email}</h4>
+    //                 <p>${item.body}</p>
+    //             </div>`
+    // }).join('');
 }
 
 /* ----------------------------- Mesa de trabajo ---------------------------- */
@@ -68,7 +100,7 @@ function renderizarElementos(listado) {
 // 1- En el caso de la consulta a la API, si la misma no es satisfactoria, deberá arrojar
 // un error que se le muestre al usuario.
 // 2- Para lograr ver el error podemos forzarlo modificando el endpoint incorrectamente,
-// para detectar y arrojar el error deben implementar el bloque try().catch()
+// para detectar y arrojar el error deben implementar el bloque try().catch() //Podemos usar el catch directamente
 // 3- Si los comentarios llegan y se cargan correctamente, el botón de "Ver comentarios"
 // debe desaparecer de la interfaz. Así evitamos que se vuelva a llamar a la API.
 // 4- Solo deben cargarse los primeros 10 comentarios que nos llegan.
